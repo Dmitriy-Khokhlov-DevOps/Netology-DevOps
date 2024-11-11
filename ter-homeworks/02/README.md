@@ -6,3 +6,5 @@
 5. Подключился к консоли ВМ через ssh
 6. preemptible = true означает, что виртуальные машины могут быть принудительно остановлены в любой момент. Такие ВМ стоят дешевле
 7. core_fraction=5 означает уровень производительности vCPU в процентах. Влияет на стоимость ВМ
+8. ![VM Yandex Cloud](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/edit/main/ter-homeworks/02/vm_yandex_cloud.png)
+9. ![curl ifconfig.me](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/edit/main/ter-homeworks/02/vm_yandex_cloud.png)
