@@ -360,16 +360,13 @@ locals {
 Поменял перменные в main.cf. Проверил.
 
 ### Задание 6
-Добавил переменные
+Добавил переменную
 
-variable "map_res_web" {
-  type = map(number)
-  default = {cores=2,memory=1,fraction=5}
-} 
-variable "map_res_db" {
-  type = map(number)
-  default = {cores=2,memory=2,fraction=20}
-} 
+variable "vms_resources" {
+  type = map(map(number))
+  default = {web={cores=2,memory=1,fraction=5},db={cores=2,memory=2,fraction=20}  }
+}
+
 
 В main.tf
 
@@ -377,9 +374,9 @@ resource "yandex_compute_instance" "platform_web" {
   name        = local.vm_web_platform_name
   platform_id = var.vm_web_platform_id
   resources {
-    cores         = var.map_res_web["cores"]
-    memory        = var.map_res_web["memory"]
-    core_fraction = var.map_res_web["fraction"]
+    cores         = var.vms_resources.web["cores"]
+    memory        = var.vms_resources.web["memory"]
+    core_fraction = var.vms_resources.web["fraction"]
   }
   boot_disk {
     initialize_params {
@@ -399,15 +396,15 @@ resource "yandex_compute_instance" "platform_web" {
     ssh-keys           = "ubuntu_web:${var.vm_web_vms_ssh_root_key}"
   }
 
-}
+} 
 
 resource "yandex_compute_instance" "platform_db" {
   name        = local.vm_db_platform_name
   platform_id = var.vm_db_platform_id
   resources {
-    cores         = var.map_res_db["cores"]
-    memory        = var.map_res_db["memory"]
-    core_fraction = var.map_res_db["fraction"]
+    cores         = var.vms_resources.db["cores"]
+    memory        = var.vms_resources.db["memory"]
+    core_fraction = var.vms_resources.db["fraction"]
   }
   boot_disk {
     initialize_params {
@@ -427,7 +424,7 @@ resource "yandex_compute_instance" "platform_db" {
     ssh-keys           = "ubuntu_db:${var.vm_db_vms_ssh_root_key}"
   }
 
-}  
+}
 
 Проверил.
 
