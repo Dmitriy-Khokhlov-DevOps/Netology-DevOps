@@ -326,3 +326,6 @@ variable "vm_db_vms_ssh_root_key" {
   description = "ssh-keygen -t ed25519"
 }
 
+![VMs](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/blob/main/ter-homeworks/02/ter-homeworks-02-3-1.png)
+
+![Subnets](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/blob/main/ter-homeworks/02/ter-homeworks-02-3-2.png)
