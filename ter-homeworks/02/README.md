@@ -345,4 +345,20 @@ output "info" {
 
 ![outputs](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/blob/main/ter-homeworks/02/ter-homeworks-02-4-1.png)
 
-### Задание 4
+### Задание 5
+
+Содержимое locals.tf
+
+locals {
+  common_platform_name = "netology-develop-platform"
+  add_web = "web"
+  add_db = "db"
+  vm_web_platform_name = "${local.common_platform_name}-${local.add_web}"
+  vm_db_platform_name = "${local.common_platform_name}-${local.add_db}"
+} 
+
+Поменял перменные в main.cf. Проверил.
+
+### Задание 6
+
+
