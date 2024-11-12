@@ -329,3 +329,20 @@ variable "vm_db_vms_ssh_root_key" {
 ![VMs](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/blob/main/ter-homeworks/02/ter-homeworks-02-3-1.png)
 
 ![Subnets](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/blob/main/ter-homeworks/02/ter-homeworks-02-3-2.png)
+
+### Задание 4
+
+Содержимое outputs.tf
+
+output "info" {
+  value = {
+    instance_web = yandex_compute_instance.platform_web.name
+    instance_db = yandex_compute_instance.platform_db.name
+    public_ip_web = yandex_compute_instance.platform_web.network_interface.0.nat_ip_address
+    public_ip_db = yandex_compute_instance.platform_db.network_interface.0.nat_ip_address
+  }
+}
+
+![outputs](https://github.com/Dmitriy-Khokhlov-DevOps/Netology-DevOps/blob/main/ter-homeworks/02/ter-homeworks-02-4-1.png)
+
+### Задание 4
