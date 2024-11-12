@@ -360,5 +360,74 @@ locals {
 Поменял перменные в main.cf. Проверил.
 
 ### Задание 6
+Добавил переменные
 
+variable "map_res_web" {
+  type = map(number)
+  default = {cores=2,memory=1,fraction=5}
+} 
+variable "map_res_db" {
+  type = map(number)
+  default = {cores=2,memory=2,fraction=20}
+} 
+
+В main.tf
+
+resource "yandex_compute_instance" "platform_web" {
+  name        = local.vm_web_platform_name
+  platform_id = var.vm_web_platform_id
+  resources {
+    cores         = var.map_res_web["cores"]
+    memory        = var.map_res_web["memory"]
+    core_fraction = var.map_res_web["fraction"]
+  }
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu_web.image_id
+    }
+  }
+  scheduling_policy {
+    preemptible = var.vm_web_preemptible
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.develop.id
+    nat       = var.vm_web_nat
+  }
+
+  metadata = {
+    serial-port-enable = var.vm_web_serial-port-enable
+    ssh-keys           = "ubuntu_web:${var.vm_web_vms_ssh_root_key}"
+  }
+
+}
+
+resource "yandex_compute_instance" "platform_db" {
+  name        = local.vm_db_platform_name
+  platform_id = var.vm_db_platform_id
+  resources {
+    cores         = var.map_res_db["cores"]
+    memory        = var.map_res_db["memory"]
+    core_fraction = var.map_res_db["fraction"]
+  }
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu_db.image_id
+    }
+  }
+  scheduling_policy {
+    preemptible = var.vm_db_preemptible
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.db.id
+    nat       = var.vm_db_nat
+  }
+
+  metadata = {
+    serial-port-enable = var.vm_db_serial-port-enable
+    ssh-keys           = "ubuntu_db:${var.vm_db_vms_ssh_root_key}"
+  }
+
+}  
+
+Проверил.
 
