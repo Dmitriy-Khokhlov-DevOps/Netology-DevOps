@@ -428,3 +428,17 @@ resource "yandex_compute_instance" "platform_db" {
 
 Проверил.
 
+Добавил переменную
+
+variable "metadata" {
+  type = map(any)
+    default = {serial-port-enable = 1
+    ssh-keys = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGqG3HLLQ5g0ZZsjaXFvVUZMDlcqQC5vLg4Vu7aVZhUA netology-vm"
+    }
+  }  
+
+  В main.tf изменил
+
+  metadata = var.metadata 
+
+  Проверил.
