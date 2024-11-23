@@ -254,3 +254,7 @@ ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]} fqdn=
 %{~ endfor ~}
 
 ```
+
+![5.png](images/5.png)
+
+![6.png](images/6.png)
