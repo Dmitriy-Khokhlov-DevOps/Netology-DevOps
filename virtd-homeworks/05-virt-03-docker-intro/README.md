@@ -47,3 +47,96 @@ Hey, Netology
 Выполнил все пункты задания:
 ![7.png](images/7.png)
 
+## Задача 3
+1. Воспользуйтесь docker help или google, чтобы узнать как подключиться к стандартному потоку ввода/вывода/ошибок контейнера "custom-nginx-t2".
+2. Подключитесь к контейнеру и нажмите комбинацию Ctrl-C.
+3. Выполните ```docker ps -a``` и объясните своими словами почему контейнер остановился.
+4. Перезапустите контейнер
+5. Зайдите в интерактивный терминал контейнера "custom-nginx-t2" с оболочкой bash.
+6. Установите любимый текстовый редактор(vim, nano итд) с помощью apt-get.
+7. Отредактируйте файл "/etc/nginx/conf.d/default.conf", заменив порт "listen 80" на "listen 81".
+8. Запомните(!) и выполните команду ```nginx -s reload```, а затем внутри контейнера ```curl http://127.0.0.1:80 ; curl http://127.0.0.1:81```.
+9. Выйдите из контейнера, набрав в консоли  ```exit``` или Ctrl-D.
+10. Проверьте вывод команд: ```ss -tlpn | grep 127.0.0.1:8080``` , ```docker port custom-nginx-t2```, ```curl http://127.0.0.1:8080```. Кратко объясните суть возникшей проблемы.
+11. * Это дополнительное, необязательное задание. Попробуйте самостоятельно исправить конфигурацию контейнера, используя доступные источники в интернете. Не изменяйте конфигурацию nginx и не удаляйте контейнер. Останавливать контейнер можно. [пример источника](https://www.baeldung.com/linux/assign-port-docker-container)
+12. Удалите запущенный контейнер "custom-nginx-t2", не останавливая его.(воспользуйтесь --help или google)
+
+В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод.
+
+### Решение задачи 3
+Выполнил все пункты задания. При запуске контейнера пробрасывается порт 8080 на порт 80, на котором слушает nginx. При замене порта 80 на 81 в nginx, снаружи, соотвтственно, проброс порта перестает работать. 
+
+```
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker run -d -p 8080:80 --name custom-nginx-t2 zpt4/custom-nginx:1.0.0
+e031956342acd6f0cc1013ef397e8a77eb93004b65cf75579d3a1168131738de
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker attach custom-nginx-t2
+^C2024/11/24 16:51:54 [notice] 1#1: signal 2 (SIGINT) received, exiting
+2024/11/24 16:51:54 [notice] 31#31: exiting
+2024/11/24 16:51:54 [notice] 33#33: exiting
+2024/11/24 16:51:54 [notice] 35#35: exiting
+2024/11/24 16:51:54 [notice] 37#37: exiting
+2024/11/24 16:51:54 [notice] 34#34: exiting
+2024/11/24 16:51:54 [notice] 32#32: exiting
+2024/11/24 16:51:54 [notice] 35#35: exit
+2024/11/24 16:51:54 [notice] 34#34: exit
+2024/11/24 16:51:54 [notice] 33#33: exit
+2024/11/24 16:51:54 [notice] 31#31: exit
+2024/11/24 16:51:54 [notice] 32#32: exit
+2024/11/24 16:51:54 [notice] 38#38: exiting
+2024/11/24 16:51:54 [notice] 36#36: exiting
+2024/11/24 16:51:54 [notice] 37#37: exit
+2024/11/24 16:51:54 [notice] 38#38: exit
+2024/11/24 16:51:54 [notice] 36#36: exit
+2024/11/24 16:51:54 [notice] 1#1: signal 17 (SIGCHLD) received from 32
+2024/11/24 16:51:54 [notice] 1#1: worker process 32 exited with code 0
+2024/11/24 16:51:54 [notice] 1#1: signal 29 (SIGIO) received
+2024/11/24 16:51:55 [notice] 1#1: signal 17 (SIGCHLD) received from 34
+2024/11/24 16:51:55 [notice] 1#1: worker process 34 exited with code 0
+2024/11/24 16:51:55 [notice] 1#1: worker process 38 exited with code 0
+2024/11/24 16:51:55 [notice] 1#1: signal 29 (SIGIO) received
+2024/11/24 16:51:55 [notice] 1#1: signal 17 (SIGCHLD) received from 31
+2024/11/24 16:51:55 [notice] 1#1: worker process 31 exited with code 0
+2024/11/24 16:51:55 [notice] 1#1: signal 29 (SIGIO) received
+2024/11/24 16:51:55 [notice] 1#1: signal 17 (SIGCHLD) received from 37
+2024/11/24 16:51:55 [notice] 1#1: worker process 37 exited with code 0
+2024/11/24 16:51:55 [notice] 1#1: signal 29 (SIGIO) received
+2024/11/24 16:51:55 [notice] 1#1: signal 17 (SIGCHLD) received from 35
+2024/11/24 16:51:55 [notice] 1#1: worker process 35 exited with code 0
+2024/11/24 16:51:55 [notice] 1#1: signal 29 (SIGIO) received
+2024/11/24 16:51:55 [notice] 1#1: signal 17 (SIGCHLD) received from 36
+2024/11/24 16:51:55 [notice] 1#1: worker process 36 exited with code 0
+2024/11/24 16:51:55 [notice] 1#1: signal 29 (SIGIO) received
+2024/11/24 16:51:55 [notice] 1#1: signal 17 (SIGCHLD) received from 33
+2024/11/24 16:51:55 [notice] 1#1: worker process 33 exited with code 0
+2024/11/24 16:51:55 [notice] 1#1: exit
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker remove custom-nginx-t2
+custom-nginx-t2
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker run -d -p 8080:80 --name custom-nginx-t2 zpt4/custom-nginx:1.0.0
+b4795a5fff8350779bc10533ed9f3ee6d61c539f433588d2085e9aa8a2e1b01c
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker exec -it custom-nginx-t2 /bin/bash
+root@b4795a5fff83:/# nginx -s reload
+2024/11/24 16:55:35 [notice] 634#634: signal process started
+root@b4795a5fff83:/# curl http://127.0.0.1:80
+curl: (7) Failed to connect to 127.0.0.1 port 80: Connection refused
+root@b4795a5fff83:/# curl http://127.0.0.1:81
+<html>
+<head>
+Hey, Netology
+</head>
+<body>
+<h1>I will be DevOps Engineer!</h1>
+</body>
+</html>
+
+root@b4795a5fff83:/# exit
+exit
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ ss -tlpn | grep 127.0.0.1:8080
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker port custom-nginx-t2
+80/tcp -> 0.0.0.0:8080
+80/tcp -> [::]:8080
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ curl http://127.0.0.1:8080
+curl: (56) Recv failure: Connection reset by peer
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker kill custom-nginx-t2
+custom-nginx-t2
+```
+
