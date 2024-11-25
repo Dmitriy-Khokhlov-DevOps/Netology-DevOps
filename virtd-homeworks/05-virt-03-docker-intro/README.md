@@ -295,3 +295,18 @@ WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/do
 [+] Killing 1/1
  ✔ Container ex5-registry-1  Killed                                                                                                                                0.2s 
 ```
+
+docker-compose.yaml
+
+```
+version: "3"
+include:
+  - docker-compose.yaml
+services:
+  portainer:
+    network_mode: host
+    image: portainer/portainer-ce:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock                    
+```
+
