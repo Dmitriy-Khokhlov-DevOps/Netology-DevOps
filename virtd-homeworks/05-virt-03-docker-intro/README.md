@@ -177,3 +177,121 @@ root@Linux:/data# exit
 exit
 starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ 
 ```
+
+## Задача 5
+
+1. Создайте отдельную директорию(например /tmp/netology/docker/task5) и 2 файла внутри него.
+"compose.yaml" с содержимым:
+```
+version: "3"
+services:
+  portainer:
+    network_mode: host
+    image: portainer/portainer-ce:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
+"docker-compose.yaml" с содержимым:
+```
+version: "3"
+services:
+  registry:
+    image: registry:2
+
+    ports:
+    - "5000:5000"
+```
+
+И выполните команду "docker compose up -d". Какой из файлов был запущен и почему? (подсказка: https://docs.docker.com/compose/compose-application-model/#the-compose-file )
+
+2. Отредактируйте файл compose.yaml так, чтобы были запущенны оба файла. (подсказка: https://docs.docker.com/compose/compose-file/14-include/)
+
+3. Выполните в консоли вашей хостовой ОС необходимые команды чтобы залить образ custom-nginx как custom-nginx:latest в запущенное вами, локальное registry. Дополнительная документация: https://distribution.github.io/distribution/about/deploying/
+4. Откройте страницу "https://127.0.0.1:9000" и произведите начальную настройку portainer.(логин и пароль адмнистратора)
+5. Откройте страницу "http://127.0.0.1:9000/#!/home", выберите ваше local  окружение. Перейдите на вкладку "stacks" и в "web editor" задеплойте следующий компоуз:
+
+```
+version: '3'
+
+services:
+  nginx:
+    image: 127.0.0.1:5000/custom-nginx
+    ports:
+      - "9090:80"
+```
+6. Перейдите на страницу "http://127.0.0.1:9000/#!/2/docker/containers", выберите контейнер с nginx и нажмите на кнопку "inspect". В представлении <> Tree разверните поле "Config" и сделайте скриншот от поля "AppArmorProfile" до "Driver".
+
+7. Удалите любой из манифестов компоуза(например compose.yaml).  Выполните команду "docker compose up -d". Прочитайте warning, объясните суть предупреждения и выполните предложенное действие. Погасите compose-проект ОДНОЙ(обязательно!!) командой.
+
+В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод, файл compose.yaml , скриншот portainer c задеплоенным компоузом.
+
+### Решение задачи 5
+Выполнил все пункты задания.
+
+```
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker compose up -d
+WARN[0000] Found multiple config files with supported names: /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml, /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/docker-compose.yaml 
+WARN[0000] Using /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml 
+WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Running 12/12
+ ✔ portainer Pulled                                                                                                                                               18.7s 
+   ✔ 2a8c27161aa3 Pull complete                                                                                                                                    1.0s 
+   ✔ 679061c2c821 Pull complete                                                                                                                                    1.0s 
+   ✔ d40df14c1d7a Pull complete                                                                                                                                    4.4s 
+   ✔ 8215717c7c10 Pull complete                                                                                                                                    8.0s 
+   ✔ 542669febe7c Pull complete                                                                                                                                   10.2s 
+   ✔ 6c27c7f45b54 Pull complete                                                                                                                                   10.4s 
+   ✔ 070d3bf2528e Pull complete                                                                                                                                   10.4s 
+   ✔ 846480e9f8b0 Pull complete                                                                                                                                   11.9s 
+   ✔ c7053d7d4c2a Pull complete                                                                                                                                   15.2s 
+   ✔ a2ed6de7fb5f Pull complete                                                                                                                                   15.2s 
+   ✔ 4f4fb700ef54 Pull complete                                                                                                                                   15.2s 
+[+] Running 1/1
+ ✔ Container ex5-portainer-1  Started                                                                                                                              0.2s 
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker compose up -d
+WARN[0000] Found multiple config files with supported names: /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml, /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/docker-compose.yaml 
+WARN[0000] Using /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml 
+WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Running 6/6
+ ✔ registry Pulled                                                                                                                                                 5.6s 
+   ✔ dc0decf4841d Pull complete                                                                                                                                    1.7s 
+   ✔ 6cb0aa443e23 Pull complete                                                                                                                                    1.8s 
+   ✔ 813676e291ef Pull complete                                                                                                                                    2.1s 
+   ✔ dc2fb7dcec61 Pull complete                                                                                                                                    2.1s 
+   ✔ 916205650bfe Pull complete                                                                                                                                    2.4s 
+[+] Running 3/3
+ ✔ Network ex5_default        Created                                                                                                                              0.0s 
+ ✔ Container ex5-portainer-1  Started                                                                                                                              0.1s 
+ ✔ Container ex5-registry-1   Started                                                                                                                              0.3s 
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker tag custom-nginx:1.0.0 localhost:5000/custom-nginx
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker push localhost:5000/custom-nginx
+Using default tag: latest
+The push refers to repository [localhost:5000/custom-nginx]
+cb4510b01292: Pushed 
+d47e4d19ddec: Pushed 
+8e58314e4a4f: Pushed 
+ed94af62a494: Pushed 
+875b5b50454b: Pushed 
+63b5f2c0d071: Pushed 
+d000633a5681: Pushed 
+latest: digest: sha256:0621ba39d85faaf15cc823ad2468af6fc2bd091a7a98457beff581fca5804832 size: 1777
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker compose down
+WARN[0000] Found multiple config files with supported names: /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml, /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/docker-compose.yaml 
+WARN[0000] Using /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml 
+WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Running 3/3
+ ✔ Container ex5-registry-1   Removed                                                                                                                              0.2s 
+ ✔ Container ex5-portainer-1  Removed                                                                                                                              0.1s 
+ ✔ Network ex5_default        Removed                                                                                                                              0.1s 
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker compose up -d
+WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+WARN[0000] Found orphan containers ([ex5-portainer-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
+[+] Running 1/0
+ ✔ Container ex5-registry-1  Running                                                                                                                               0.0s 
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker compose kill
+WARN[0000] /home/starry/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Killing 1/1
+ ✔ Container ex5-registry-1  Killed                                                                                                                                0.2s 
+```
