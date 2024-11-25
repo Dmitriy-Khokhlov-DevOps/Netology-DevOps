@@ -227,6 +227,8 @@ services:
 
 ### Решение задачи 5
 Выполнил все пункты задания.
+1. Название файла docker-compose.yaml является устаревшим, поэтому, при наличии compose.yaml, выполняется compose.yaml. Использовал команду include, чтобы запустить оба файла.
+7. После удаления compose.yaml и выполнения команды "docker compose up -d" появляется сообщение о наличии контейнера, которого нет в docker-compose.yaml.
 
 ```
 starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro/ex5$ sudo docker compose up -d
