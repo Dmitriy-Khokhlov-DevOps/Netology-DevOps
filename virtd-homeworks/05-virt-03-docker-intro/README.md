@@ -310,3 +310,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock                    
 ```
 
+![8.png](images/8.png)
+
+![9.png](images/9.png)
+
