@@ -140,3 +140,40 @@ starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker ki
 custom-nginx-t2
 ```
 
+## Задача 4
+
+- Запустите первый контейнер из образа ***centos*** c любым тегом в фоновом режиме, подключив папку  текущий рабочий каталог ```$(pwd)``` на хостовой машине в ```/data``` контейнера, используя ключ -v.
+- Запустите второй контейнер из образа ***debian*** в фоновом режиме, подключив текущий рабочий каталог ```$(pwd)``` в ```/data``` контейнера. 
+- Подключитесь к первому контейнеру с помощью ```docker exec``` и создайте текстовый файл любого содержания в ```/data```.
+- Добавьте ещё один файл в текущий каталог ```$(pwd)``` на хостовой машине.
+- Подключитесь во второй контейнер и отобразите листинг и содержание файлов в ```/data``` контейнера.
+
+В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод.
+
+### Решение задачи 4
+Выполнил все пункты задания.
+```
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker run -t -d -v $(pwd):/data --network host --name vm_centos centos
+4fafb71d4689fdfa50399bbbc92ea81ac8a458e3d62e292eafbda532ad1b23dd
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker run -t -d -v $(pwd):/data --network host --name vm_debian debian
+5660568b711b6b85bf7900d6f221ef7a392ac3e21af5bc882669ca2c6b41e047
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker exec -it vm_centos /bin/bash
+[root@Linux /]# cd data
+[root@Linux data]# ls
+Dockerfile
+[root@Linux data]# touch shared-file.txt
+[root@Linux data]# ls
+Dockerfile  shared-file.txt
+[root@Linux data]# exit
+exit
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ touch shared-file-host.txt
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ ls
+Dockerfile  shared-file-host.txt  shared-file.txt
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ sudo docker exec -it vm_debian /bin/bash
+root@Linux:/# cd data
+root@Linux:/data# ls
+Dockerfile  shared-file-host.txt  shared-file.txt
+root@Linux:/data# exit
+exit
+starry@Linux:~/Documents/virtd-homeworks/05-virt-03-docker-intro$ 
+```
